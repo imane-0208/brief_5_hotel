@@ -13,7 +13,7 @@
     <!-- <link rel="stylesheet" href="../css/" /> -->
 
     <style>
-      .child {
+      .child,.room {
         display: none;
       }
 
@@ -61,9 +61,23 @@
             </select>
           </label> -->
 
-          <div class="chambre_type"></div>
+          <div class="room">
+          <p>Number of rooms :</p>
+          <input
+            style="width: 140px"
+            type="number"
+            min="0"
+            max="6"
+            id="addchambre"
+            class="form-control"
+          />
+          </div>
+
+          <div class="add_bien">
+          </div>
+          <!-- <div class="chambre_type"></div>
           <div class="bed_type"></div>
-          <div class="vue_type"></div>
+          <div class="vue_type"></div> -->
         </div>
 
         <div class="child">
@@ -91,7 +105,7 @@
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="../js/bootstrap.min.js"></script>
+    <!-- <script src="../js/bootstrap.min.js"></script> -->
     <!-- Main Js -->
     <!-- <script src="maintest.js"></script> -->
   </body>

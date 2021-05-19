@@ -37,52 +37,68 @@ nbchild.addEventListener('input', () => {
     }
 })
 
-
 const bien_type = document.querySelector("#hotel")
 const chambre_type = document.querySelector('.chambre_type')
+const nbroom = document.querySelector('#addchambre')
+
+
 
 bien_type.addEventListener("change",() => {
-if(bien_type.checked){
+    if(bien_type.checked){
+    
+        document.querySelector('.child').style.display = 'block'
+        document.querySelector('.room').style.display = 'block'
 
-    document.querySelector('.child').style.display = 'block'
-
-    chambre_type.innerHTML = 
-
-    `
-       <label for="chambre_type">Choose a chambre type:
-        <select name="chambre_type" id="chambre_type" class="bk-selector form-control">
-        <option value="">--select one--</option>
-        <option value="chambre_simple">chambre simple</option>
-        <option value="chambre_double">chambre double</option>
-        </select>
-        </label>
-
-    `
-
-    }
+        }
     else
-{
-    document.querySelector(".chambre_type").innerHTML =''
-    document.querySelector('.children').innerHTML =''
-    document.querySelector(".vue_type").innerHTML =''
-    document.querySelector(".bed_type").innerHTML =''
-    document.querySelector('.child').style.display = 'none'
-}
+    {
+        document.querySelector('.child').style.display = 'none'
+        document.querySelector('.room').style.display = 'none'
+    }
+    })
+    
+
+
+
+
+nbroom.addEventListener('input', () => {
+    document.querySelector('.add_bien').innerHTML = ''
+    for(let i = 1 ; i<= nbroom.value ; i++){ 
+        
+        document.querySelector(".add_bien").innerHTML += 
+
+        `
+        <div class="chambre_type${i}">
+        <label for="chambre_type">Choose a chambre type:
+         <select name="chambre_type${i}" id="chambre_type${i}" class="bk-selector form-control">
+         <option value="">--select one--</option>
+         <option value="chambre_simple">chambre simple</option>
+         <option value="chambre_double">chambre double</option>
+         </select>
+         </label>
+ 
+         </div>
+         <div class="bed_type${i} style="display:flex"></div>
+         <div class="vue_type${i}"></div>
+
+        `
+    }
 })
 
 
 document.addEventListener("change", function(e){
+    for(let j=1; j<=nbroom.value ; j++){
     
-    if(e.target.value == "chambre_simple"){
+    if(e.target.id == `chambre_type${j}` &&  (e.target.value == `chambre_simple`)){
 
-        document.querySelector(".bed_type").innerHTML =''
-        document.querySelector(".vue_type").innerHTML =''
+        document.querySelector(`.bed_type${j}`).innerHTML =''
+        document.querySelector(`.vue_type${j}`).innerHTML =''
 
-        document.querySelector(".vue_type").innerHTML =
+        document.querySelector(`.vue_type${j}`).innerHTML =
         
         `
-        <label for="vue">Choose a vue:
-        <select name="vue" id="vue"  class="bk-selector form-control">
+        <label for='vue${j}'>Choose a vue:
+        <select name='vue${j}' id='vue${j}'  class="bk-selector form-control">
         
         <option value="vue_intern">vue intérieure</option>
         <option value="vue_extern">vue extérieure</option>
@@ -90,51 +106,60 @@ document.addEventListener("change", function(e){
         </label>
         
         `
-    }else if(e.target.value == "chambre_double"){
-        document.querySelector(".vue_type").innerHTML =''
-        document.querySelector(".bed_type").innerHTML =''
+    }else if(e.target.id == `chambre_type${j}` &&  (e.target.value == `chambre_double`)){
+        document.querySelector(`.vue_type${j}`).innerHTML =''
+        document.querySelector(`.bed_type${j}`).innerHTML =''
 
-        document.querySelector(".bed_type").innerHTML =
+        document.querySelector(`.bed_type${j}`).innerHTML =
         `
-        <label for="bed">Choose a bed:
-        <select name="bed" id="bed" class="bk-selector form-control">
-        
+        <label for="bed${j}">Choose a bed:
+        <select name="bed${j}" id="bed${j}" class="bk-selector form-control">
+        <option value="">--select one--</option>
         <option value="lit_double">lit double</option>
         <option value="deux_lit_simple">2 lit simple</option>
         </select> 
         `
     }
+}
 })
 
 
 document.addEventListener("change", function(e){
+    for(let k=1; k<=nbroom.value ; k++){
     
-    if(e.target.value == "lit_double"){
+    if(e.target.id == `bed${k}` && e.target.value == "lit_double"){
 
-        document.querySelector(".vue_type").innerHTML =
+        document.querySelector(`.vue_type${k}`).innerHTML =''
+
+        document.querySelector(`.vue_type${k}`).innerHTML =
         
         `
-        <label for="vue">Choose a vue:
-        <select name="vue" id="vue"  class="bk-selector form-control">
-        <option value=""></option>
+        <label for="vue${k}">Choose a vue:
+        <select name="vue${k}" id="vue${k}"  class="bk-selector form-control">
         <option value="vue_intern">vue intérieure</option>
         <option value="vue_extern">vue extérieure</option>
         </select>
         </label>
         
         `
-    }else if(e.target.value == "deux_lit_simple"){
-        document.querySelector(".vue_type").innerHTML =
+    }
+
+
+    else if(e.target.id == `bed${k}` && e.target.value == "deux_lit_simple"){
+
+        document.querySelector(`.vue_type${k}`).innerHTML =''
+
+        document.querySelector(`.vue_type${k}`).innerHTML =
         
         `
-        <label for="vue">Choose a vue:
-        <select name="vue" id="vue"  class="bk-selector form-control">
-        <option value=""></option>
+        <label for="vue${k}">Choose a vue:
+        <select name="vue${k}" id="vue${k}"  class="bk-selector form-control">
         <option value="vue_intern">vue intérieure</option>
         </select>
         </label>
         `
     }
+}
 })
 
 // function arrayEquals(a, b) {
@@ -202,10 +227,7 @@ document.addEventListener("input", function(e){
     for(let i = 1  ; i<= nbchild.value ; i++){
 
         
-        const idenf =  document.querySelector(`#id-age${i}`)
-        idenf.addEventListener("input", function(){
-
-        if(e.target.className == idenf.className && (e.target.value <= 2 &&  e.target.value >= 0)){
+        if(e.target.id == `id-age${i}` && (e.target.value <= 2 &&  e.target.value >= 0)){
 
             // console.log("enfant A")
             document.querySelector(`#enf-lit${i}`).innerHTML = 
@@ -220,7 +242,7 @@ document.addEventListener("input", function(e){
             `
     }
         
-        else if(e.target.className == idenf.className && (2 <e.target.value && e.target.value < 14)){
+        else if(e.target.id == `id-age${i}` && (2 <e.target.value && e.target.value < 14)){
             // console.log("enfant B")
             document.querySelector(`#enf-lit${i}`).innerHTML = 
             `
@@ -234,7 +256,7 @@ document.addEventListener("input", function(e){
         
     }
 
-        else if(e.target.className == idenf.className && (e.target.value >= 14 && e.target.value < 18)){
+        else if(e.target.id == `id-age${i}` && (e.target.value >= 14 && e.target.value < 18)){
             // console.log("enfant C")
             document.querySelector(`#enf-lit${i}`).innerHTML = 
             `
@@ -247,8 +269,7 @@ document.addEventListener("input", function(e){
             </label>
             `
     }
-}
-)
+
 }
 
 })
