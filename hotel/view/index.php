@@ -54,7 +54,7 @@
                     <a class="nav-link" href="#">Contact Us</a>
                   </li>
                   <li class="nav-item">
-                  <a class="btn btn1">Login</a>
+                  <a class="btn btn1" href="login.php">Login</a>
                   
                   </li>
                   <li class="nav-item">

@@ -1,5 +1,86 @@
 <?php
-include'connect.class.php';
+
+
+include "connect.class.php";   
+class Client {
+
+
+    /* connection */
+    public function __construct(){
+
+        $connection = new connection();
+        $this->conn= $connection->connect();
+    }
+    /* sign up */
+    public function register($Fname , $Lname , $email  , $Phone ,$password){
+
+        $query  =    $this->conn->prepare("SELECT idlogin FROM login WHERE email= ?");
+        $query->execute([$email]);
+
+        $result    =   $query->rowCount();
+        if ($result == 0) {  
+
+
+            /* insert in login table */
+
+            $stm = $this->conn->prepare("INSERT into login (email, password) VALUES (?,?)");
+            $stm->execute([$email,$password]);
+
+
+            /* get id login */
+
+            $idc  = $this->conn->lastInsertId();
+
+
+
+            /* insert in custclientomer table */
+            $sql      =   "INSERT INTO client (`idc`, `fname`, `lname`, `phone`) VALUES (?,?,?,?) ";
+            $registerClient   =   $this->conn->prepare($sql);
+            $registerClient->execute([$idc,$Fname,$Lname,$Phone]);
+            header("location:../view/login.php");
+              
+        } else {  
+            die('error!!!!'); 
+        }  
+    }
+
+
+
+
+    /* sign in */
+    public function login($email){
+
+        
+        $stmt   =   $this->conn->prepare("SELECT * FROM login WHERE email = ?");
+        $stmt->execute([$email]);
+        $row    =   $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
+
+
+
+/*  Get The Information Of client */
+
+
+
+
+    public function selectClient($selectiduser){
+        $stmtclient      = $this->conn->prepare("SELECT * FROM client WHERE idc = ?");
+        $stmtclient->execute([$selectiduser]);
+        $rows            =   $stmtclient->fetch(PDO::FETCH_ASSOC);
+        return $rows;
+    }
+
+
+
+
+
+}
+
+
+
+/* include'connect.class.php';
 
 Class client{
     
@@ -29,7 +110,7 @@ Class client{
                     $row = $sql->fetch();
         
                     $id_login = $row['id'];
-                    $logemail = $row['email'];
+                    $logemail = $row['email']; */
                     
                     /* if( $logemail == $email ){
                         echo "<script>alert('compte deja existe');</script>";
@@ -38,7 +119,7 @@ Class client{
                         
                     } */
                     
-                        $querry3  = "INSERT INTO client (nom, prenom, phone,idlogin) VALUES ('$lname','$lname', '$phone', '$id_login')";
+                        /* $querry3  = "INSERT INTO client (nom, prenom, phone,idlogin) VALUES ('$lname','$lname', '$phone', '$id_login')";
                         $base->getConnection()->exec($querry3);
 
                         echo "<script>alert('your register passed successfully');</script>";
@@ -85,7 +166,7 @@ Class client{
 
 
                 
-    }
+    } */
         
 
 

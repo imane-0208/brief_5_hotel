@@ -19,7 +19,8 @@ let total = {}
 
 
 
-const nbchild = document.querySelector('#nbchild')
+
+/* const nbchild = document.querySelector('#nbchild')
 nbchild.addEventListener('input', () => {
     document.querySelector('.children').innerHTML = ''
     for(let i = 1 ; i<= nbchild.value ; i++){ 
@@ -35,7 +36,7 @@ nbchild.addEventListener('input', () => {
 
         `
     }
-})
+}) */
 
 const bien_type = document.querySelector("#hotel")
 const chambre_type = document.querySelector('.chambre_type')
@@ -48,6 +49,7 @@ bien_type.addEventListener("change",() => {
     
         document.querySelector('.child').style.display = 'block'
         document.querySelector('.room').style.display = 'block'
+        document.querySelector('.pension').style.display = 'block'
 
         }
     else
@@ -59,7 +61,8 @@ bien_type.addEventListener("change",() => {
     
 
 
-
+    let simplech = 300 ;
+    let doublech = 400 ;
 
 nbroom.addEventListener('input', () => {
     document.querySelector('.add_bien').innerHTML = ''
@@ -70,16 +73,18 @@ nbroom.addEventListener('input', () => {
         `
         <div class="chambre_type${i}">
         <label for="chambre_type">Choose a chambre type:
-         <select name="chambre_type${i}" id="chambre_type${i}" class="bk-selector form-control">
+         <select name="rooms[${i}][typechambre]"id="chambre_type${i}" class="bk-selector form-control">
          <option value="">--select one--</option>
          <option value="chambre_simple">chambre simple</option>
          <option value="chambre_double">chambre double</option>
          </select>
          </label>
+
  
          </div>
-         <div class="bed_type${i} style="display:flex"></div>
+         <div class="bed_type${i} style="display:flex;"></div>
          <div class="vue_type${i}"></div>
+         <label>Prix</label><br><input name="prix${i}" style="width: 140px;" type="number" id="prix${i}" value="0" class="form-control" disabled/>
 
         `
     }
@@ -87,7 +92,9 @@ nbroom.addEventListener('input', () => {
 
 
 document.addEventListener("change", function(e){
+    
     for(let j=1; j<=nbroom.value ; j++){
+        
     
     if(e.target.id == `chambre_type${j}` &&  (e.target.value == `chambre_simple`)){
 
@@ -98,44 +105,81 @@ document.addEventListener("change", function(e){
         
         `
         <label for='vue${j}'>Choose a vue:
-        <select name='vue${j}' id='vue${j}'  class="bk-selector form-control">
-        
+        <select name="rooms[${j}][vuetype]" id='vue${j}'  class="bk-selector form-control">
+        <option>coose a vue</option>
         <option value="vue_intern">vue intérieure</option>
         <option value="vue_extern">vue extérieure</option>
         </select>
         </label>
         
         `
+        document.querySelector(`#prix${j}`).value = simplech;
+        
+
+
+
+
+        
     }else if(e.target.id == `chambre_type${j}` &&  (e.target.value == `chambre_double`)){
         document.querySelector(`.vue_type${j}`).innerHTML =''
         document.querySelector(`.bed_type${j}`).innerHTML =''
+        document.querySelector(`#prix${j}`).value = doublech;
 
         document.querySelector(`.bed_type${j}`).innerHTML =
         `
         <label for="bed${j}">Choose a bed:
-        <select name="bed${j}" id="bed${j}" class="bk-selector form-control">
+        <select name="rooms[${j}][typelit]" id="bed${j}" class="bk-selector form-control">
         <option value="">--select one--</option>
         <option value="lit_double">lit double</option>
         <option value="deux_lit_simple">2 lit simple</option>
         </select> 
         `
+        
+
+
+        
+
     }
 }
 })
+
+// choose  vue
+
+document.addEventListener("change", function(e){
+    for(let a=1; a<=nbroom.value ; a++){
+    
+        if(e.target.id == `vue${a}` && e.target.value == "vue_intern"){
+
+            document.querySelector(`#prix${a}`).value = simplech +1;
+            
+            
+    }
+     else if(e.target.id == `vue${a}` && e.target.value == "vue_extern"){
+
+           document.querySelector(`#prix${a}`).value = simplech +(0.2*300);
+     }
+
+           
+    }
+})
+
+
+
 
 
 document.addEventListener("change", function(e){
     for(let k=1; k<=nbroom.value ; k++){
     
     if(e.target.id == `bed${k}` && e.target.value == "lit_double"){
+        document.querySelector(`#prix${k}`).value = doublech;
 
         document.querySelector(`.vue_type${k}`).innerHTML =''
 
         document.querySelector(`.vue_type${k}`).innerHTML =
         
         `
-        <label for="vue${k}">Choose a vue:
-        <select name="vue${k}" id="vue${k}"  class="bk-selector form-control">
+        <label for="Vue${k}">Choose a vue:
+        <select name="rooms[${k}][vuetype]" id="Vue${k}"  class="bk-selector form-control">
         <option value="vue_intern">vue intérieure</option>
         <option value="vue_extern">vue extérieure</option>
         </select>
@@ -146,14 +190,15 @@ document.addEventListener("change", function(e){
 
 
     else if(e.target.id == `bed${k}` && e.target.value == "deux_lit_simple"){
+        document.querySelector(`#prix${k}`).value = doublech;
 
         document.querySelector(`.vue_type${k}`).innerHTML =''
 
         document.querySelector(`.vue_type${k}`).innerHTML =
         
         `
-        <label for="vue${k}">Choose a vue:
-        <select name="vue${k}" id="vue${k}"  class="bk-selector form-control">
+        <label for="Vue${k}">Choose a vue:
+        <select name="rooms[${k}][vuetype]"  id="Vue${k}"  class="bk-selector form-control">
         <option value="vue_intern">vue intérieure</option>
         </select>
         </label>
@@ -161,6 +206,30 @@ document.addEventListener("change", function(e){
     }
 }
 })
+
+document.addEventListener("change", function(e){
+    for(let b=1; b<=nbroom.value ; b++){
+    
+        if(e.target.id == `Vue${b}` && e.target.value == "vue_intern"){
+
+            document.querySelector(`#prix${b}`).value = doublech;
+            
+            
+    }
+     else if(e.target.id == `Vue${b}` && e.target.value == "vue_extern"){
+
+           document.querySelector(`#prix${b}`).value = doublech +(0.2*300);
+     }
+
+           
+    }
+})
+
+
+
+
+
+
 
 // function arrayEquals(a, b) {
 //   return Array.isArray(a) &&
@@ -222,6 +291,24 @@ btn.addEventListener("click", function(){
 }
 )
 
+const nbchild = document.querySelector('#nbchild')
+nbchild.addEventListener('input', () => {
+    document.querySelector('.children').innerHTML = ''
+    for(let i = 1 ; i<= nbchild.value ; i++){ 
+        document.querySelector(".children").innerHTML += 
+
+        `
+        <span>age enfant ${i} :</span>
+        <input style="width: 140px" type="number"
+         min="1" max="17"  id="id-age${i}" 
+         class="enfant-age form-control"
+        />
+        <div id="enf-lit${i}"></div>
+
+        `
+    }
+})
+
 document.addEventListener("input", function(e){
     
     for(let i = 1  ; i<= nbchild.value ; i++){
@@ -233,12 +320,13 @@ document.addEventListener("input", function(e){
             document.querySelector(`#enf-lit${i}`).innerHTML = 
             `
             <label for="">Choose offer:
-            <select name="" id=""  class="enf-option form-control">
+            <select name="" id="child_offer${i}"  class="enf-option form-control">
             <option value="">--select one--</option>
             <option value="option1">lit supplémentaire</option>
             <option value="option2">pas lit supplémentaire</option>
             </select>
-            </label>
+            </label><br>
+            <label>Prix</label><br><input name="prix${i}" style="width: 140px;" type="number" id="prix_child${i}" value="0" class="form-control" disabled/>
             `
     }
         
@@ -247,11 +335,12 @@ document.addEventListener("input", function(e){
             document.querySelector(`#enf-lit${i}`).innerHTML = 
             `
             <label for="">Choose offer:
-            <select name="" id=""  class="enf-option form-control">
+            <select name="" id="child_offer${i}"  class="enf-option form-control">
             <option value="">--select one--</option>
             <option value="option3">in parents chambre simple</option>
             </select>
-            </label>
+            </label><br>
+            <label>Prix</label><br><input name="prix${i}" style="width: 140px;" type="number" id="prix_child${i}" value="0" class="form-control" disabled/>
             `
         
     }
@@ -261,18 +350,120 @@ document.addEventListener("input", function(e){
             document.querySelector(`#enf-lit${i}`).innerHTML = 
             `
             <label for="">Choose offer:
-            <select name="" id=""  class="enf-option form-control">
+            <select name="" id="child_offer${i}"  class="enf-option form-control">
             <option value="">--select one--</option>
             <option value="option4">chambre simple separeé</option>
             <option value="option5">in parents chambre simple</option>
             </select>
-            </label>
+            </label><br>
+            <label>Prix</label><br><input name="prix${i}" style="width: 140px;" type="number" id="prix_child${i}" value="0" class="form-control" disabled/>
             `
     }
 
 }
 
 })
+
+document.addEventListener("change", function(e){
+    for(let c=1; c<=nbchild.value ; c++){
+    
+        if(e.target.id == `child_offer${c}` && e.target.value == "option1"){
+
+            document.querySelector(`#prix_child${c}`).value = 300*0.25;
+            
+            
+    }
+     else if(e.target.id == `child_offer${c}` && e.target.value == "option2"){
+
+        document.querySelector(`#prix_child${c}`).value = 0;
+        
+        
+}
+else if(e.target.id == `child_offer${c}` && e.target.value == "option3"){
+
+    document.querySelector(`#prix_child${c}`).value = 300*0.5;
+}
+else if(e.target.id == `child_offer${c}` && e.target.value == "option4"){
+
+    document.querySelector(`#prix_child${c}`).value = 300*1;}
+    else if(e.target.id == `child_offer${c}` && e.target.value == "option5"){
+
+        document.querySelector(`#prix_child${c}`).value = 300*0.7;}
+
+
+           
+    }
+})
+var prixp = document.querySelector('#prixp');
+var demi = document.querySelector('#demi');
+var sans = document.querySelector('#sans');
+var complet = document.querySelector('#complet');
+var demi_choix = document.querySelector('#demichoix');
+
+
+
+
+demi.addEventListener("change",() => {
+    if(demi.checked){
+    
+        demi_choix.innerHTML = `<br>
+        <label for="">Choose offer:
+        <select name="" id="demi_ch"  class="form-control">
+        <option value="">--select one--</option>
+        <option value="peutit dej/dej">peutit dej/dej</option>
+        <option value="peutit dej/diner">peutit dej/diner</option>
+        </select>
+        </label><br>
+        
+        `
+        prixp.innerHTML = `
+        <label>Prix</label><br><input name="prixp" style="width: 140px;" type="number" id="prixps" value="0" class="form-control" disabled/>
+        
+        `
+    }
+})
+
+document.addEventListener("change", function(e){
+    if(e.target.id == `demi_ch` && e.target.value == "peutit dej/dej"){
+        document.querySelector('#prixps').value = 250;
+
+    }
+    else if(e.target.id == `demi_ch` && e.target.value == "peutit dej/diner"){
+        document.querySelector('#prixps').value = 300;
+
+    }
+
+})
+
+
+    sans.addEventListener("change",() => {
+        if(sans.checked){
+        
+            prixp.innerHTML = `
+            <label>Prix</label><br><input name="prixp" style="width: 140px;" type="number" id="prixps" value="0" class="form-control" disabled/>
+            
+            `
+        }
+        
+})
+
+
+        complet.addEventListener("change",() => {
+            if(complet.checked){
+            
+                prixp.innerHTML = `
+                <label>Prix</label><br><input name="prixp" style="width: 140px;" type="number" id="prixps" value="500" class="form-control" disabled/>
+                
+                `
+            }
+            
+                
+            
+            })
+
+
+
+
 
 
 

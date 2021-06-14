@@ -29,7 +29,7 @@
   </div>
 </nav>
 
-<?php include'../controller/client_register.php' ?>
+<?php //include'../controller/client_register.php' ?>
        
 
       <div class="container login">
@@ -65,7 +65,7 @@
     
     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="confirme password" name="">
   </div>
-  <button type="submit" class="btn" name="submit">Submit</button>
+  <button type="submit" class="btn" name="register">Submit</button>
   <a href="login.php">Or Login</a>
 </form>
       </div>

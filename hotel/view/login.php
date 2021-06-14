@@ -28,10 +28,10 @@
     </div>
   </div>
 </nav>
-<?php include'../controller/client_login.php' ?>
+<?php //include'../controller/client_login.php' ?>
 
       <div class="container login">
-      <form action="../controller/client_login.php" method="POST">
+      <form action="../controller/client_register.php" method="POST">
         <h2>Login</h2>
   <div class="mb-3">
     
